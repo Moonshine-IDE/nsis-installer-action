@@ -1,0 +1,58 @@
+name: 'Create NSIS Installer'
+description: 'Creates an AppImage from binaries and resources'
+
+inputs:
+  product_name:
+    description: 'Name of the application'
+    required: true
+  product_version:
+    description: 'Version of the application'
+    required: true
+  product_publisher:
+    description: 'Publisher of the application'
+    required: true
+  product_website:
+    description: 'Website of the application'
+    required: true
+  bin_path:
+    description: 'Path to the binaries of the application'
+    required: true
+  product_exe:
+    description: 'Executable of the application'
+    required: true
+  product_license:
+    description: 'License of the application'
+    required: true
+  product_installer:
+    description: 'Name of the resulting installer'
+    required: true
+
+
+runs:
+  using: 'composite'
+  steps:
+
+  - name: 'Checkout'
+    uses: actions/checkout@v2
+
+  - name: Install NSIS plugin nsProcess
+    shell: powershell
+    run: |
+      Invoke-RestMethod -Uri "http://forums.winamp.com/attachment.php?attachmentid=48936&d=1309248568" -OutFile NsProcess.7z
+      7z x NsProcess.7z -o'NsProcess'
+      mv NsProcess\Plugin\nsProcessW.dll "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\nsProcess.dll"
+
+  - name: 'Create NSIS Installer'
+    shell: powershell
+    run: |
+      makensis `
+        /DPRODUCT_NAME="${{ inputs.product_name }}" `
+        /DPRODUCT_VERSION=${{ inputs.product_version }} `
+        /DPRODUCT_PUBLISHER="${{ inputs.product_publisher }}" `
+        /DPRODUCT_WEB_SITE="${{ inputs.product_website }}" `
+        /DBIN_PATH="${{ inputs.bin_path }}" `
+        /DPRODUCT_EXE="${{ inputs/product_exe }}" `
+        /DPRODUCT_INSTALLER="${{ inputs.product_installer }}" `
+        /DLICENSE_FILE=${{ inputs.product_license }} `
+        /DROOT_KEY=HKCU `
+        installer.nsi
