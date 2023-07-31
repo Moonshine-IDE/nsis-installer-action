@@ -51,7 +51,7 @@ runs:
         /DPRODUCT_PUBLISHER="${{ inputs.product_publisher }}" `
         /DPRODUCT_WEB_SITE="${{ inputs.product_website }}" `
         /DBIN_PATH="${{ inputs.bin_path }}" `
-        /DPRODUCT_EXE="${{ inputs/product_exe }}" `
+        /DPRODUCT_EXE="${{ inputs.product_exe }}" `
         /DPRODUCT_INSTALLER="${{ inputs.product_installer }}" `
         /DLICENSE_FILE=${{ inputs.product_license }} `
         /DROOT_KEY=HKCU `
