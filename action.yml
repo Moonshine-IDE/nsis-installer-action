@@ -55,6 +55,14 @@ runs:
       pwd
       tree /F "${{ inputs.bin_path }}"
 
+  - name: some
+    shell: powershell
+    id: convert
+    run: |
+      $binPathAbsolute = Resolve-Path ${{ inputs.bin_path }}
+      echo "Absolute path: $binPathAbsolute"
+      echo "binPathAbsolute=$binPathAbsolute" | Out-File -Append $env:GITHUB_ENV
+
   - name: 'Create NSIS Installer'
     shell: powershell
     run: |
@@ -63,7 +71,7 @@ runs:
         /DPRODUCT_VERSION=${{ inputs.product_version }} `
         /DPRODUCT_PUBLISHER="${{ inputs.product_publisher }}" `
         /DPRODUCT_WEB_SITE="${{ inputs.product_website }}" `
-        /DBIN_PATH="${{ inputs.bin_path }}\*.*" `
+        /DBIN_PATH="${{ env.binPathAbsolute }}\*.*" `
         /DPRODUCT_EXE="${{ inputs.product_exe }}" `
         /DPRODUCT_INSTALLER="${{ inputs.product_installer }}" `
         /DLICENSE_FILE=${{ inputs.product_license }} `
