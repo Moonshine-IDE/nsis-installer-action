@@ -51,7 +51,7 @@ runs:
     shell: powershell
     run: |
       pwd
-      tree ${{ inputs.bin_path }}"
+      tree "${{ inputs.bin_path }}"
 
   - name: 'Create NSIS Installer'
     shell: powershell
