@@ -79,6 +79,6 @@ runs:
         ./nsis-installer-action-repo/installer.nsi
 
   - name: Set output
-    id: set_output
+    shell: powershell
     run: |
       echo "::set-output name=installer_path::./nsis-installer-action-repo/${{ inputs.product_installer }}.exe"
