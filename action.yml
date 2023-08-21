@@ -81,4 +81,4 @@ runs:
   - name: Set output
     shell: powershell
     run: |
-      echo "::set-output name=installer_path::./nsis-installer-action-repo/${{ inputs.product_installer }}.exe"
+      echo "installer_path=./nsis-installer-action-repo/${{ inputs.product_installer }}" >> $GITHUB_OUTPUT
