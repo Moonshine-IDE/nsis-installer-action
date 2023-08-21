@@ -77,3 +77,8 @@ runs:
         /DLICENSE_FILE=${{ inputs.product_license }} `
         /DROOT_KEY=HKCU `
         ./nsis-installer-action-repo/installer.nsi
+
+  - name: Set output
+    id: set_output
+    run: |
+      echo "::set-output name=installer_path::./nsis-installer-action-repo/${{ inputs.product_installer }}.exe"
