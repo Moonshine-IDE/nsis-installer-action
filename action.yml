@@ -50,7 +50,7 @@ runs:
   - name: Debug
     shell: powershell
     run: |
-      pwd ${{ inputs.bin_path }}"
+      pwd
       tree ${{ inputs.bin_path }}"
 
   - name: 'Create NSIS Installer'
