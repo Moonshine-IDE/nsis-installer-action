@@ -34,6 +34,8 @@ runs:
 
   - name: 'Checkout'
     uses: actions/checkout@v2
+    with: 
+      path: ./nsis-installer-action-repo
 
   - name: Install NSIS plugin nsProcess
     shell: powershell
@@ -66,4 +68,4 @@ runs:
         /DPRODUCT_INSTALLER="${{ inputs.product_installer }}" `
         /DLICENSE_FILE=${{ inputs.product_license }} `
         /DROOT_KEY=HKCU `
-        installer.nsi
+        ./nsis-installer-action-repo/installer.nsi
