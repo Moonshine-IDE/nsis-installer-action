@@ -1,5 +1,5 @@
 name: 'Create NSIS Installer'
-description: 'Creates an AppImage from binaries and resources'
+description: 'Creates an NSIS Installer from the binaries and the resources'
 
 inputs:
   product_name:
@@ -14,17 +14,17 @@ inputs:
   product_website:
     description: 'Website of the application'
     required: true
-  bin_path:
-    description: 'Path to the binaries of the application'
-    required: true
   product_exe:
     description: 'Executable of the application'
     required: true
-  product_license:
-    description: 'License of the application'
+  bin_path:
+    description: 'Path to the binaries of the application'
     required: true
-  product_installer:
-    description: 'Name of the resulting installer'
+  license_path:
+    description: 'Path to the license of the application'
+    required: true
+  output_path:
+    description: 'Path to the resulting installer'
     required: true
 
 
@@ -73,12 +73,14 @@ runs:
         /DPRODUCT_WEB_SITE="${{ inputs.product_website }}" `
         /DBIN_PATH="${{ env.binPathAbsolute }}\*.*" `
         /DPRODUCT_EXE="${{ inputs.product_exe }}" `
-        /DPRODUCT_INSTALLER="${{ inputs.product_installer }}" `
-        /DLICENSE_FILE=${{ inputs.product_license }} `
+        /DPRODUCT_INSTALLER="Split-Path ${{ inputs.output_path }} -leaf" `
+        /DLICENSE_FILE=${{ inputs.license_path }} `
         /DROOT_KEY=HKCU `
         ./nsis-installer-action-repo/installer.nsi
 
-  - name: Set output
+  - name: Relocate installer
     shell: powershell
+    env: 
+      INSTALLER_NAME: Split-Path ${{ inputs.output_path }} -leaf
     run: |
-      echo "installer_path=./nsis-installer-action-repo/${{ inputs.product_installer }}" >> $GITHUB_OUTPUT
+      mv installer_path=./nsis-installer-action-repo/${{ INSTALLER_NAME }} ${{ inputs.output_path }}
