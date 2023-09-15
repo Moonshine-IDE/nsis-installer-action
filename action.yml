@@ -85,4 +85,4 @@ runs:
     env: 
       INSTALLER_NAME: Split-Path ${{ inputs.output_path }} -leaf
     run: |
-      mv installer_path=./nsis-installer-action-repo/${{ env.installerName }} ${{ inputs.output_path }}
+      mv ./nsis-installer-action-repo/${{ env.installerName }} ${{ inputs.output_path }}
