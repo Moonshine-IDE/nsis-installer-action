@@ -33,7 +33,7 @@
 !define MUI_WELCOMEPAGE_TITLE_3LINES
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!insertmacro MUI_PAGE_LICENSE "${LICENSE_FILE}"
+;!insertmacro MUI_PAGE_LICENSE "${LICENSE_FILE}"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page
