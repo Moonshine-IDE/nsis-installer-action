@@ -76,7 +76,7 @@ runs:
         /DBIN_PATH="${{ env.binPathAbsolute }}\*.*" `
         /DPRODUCT_EXE="${{ inputs.product_exe }}" `
         /DPRODUCT_INSTALLER="${{ env.installerName }}" `
-        /DLICENSE_FILE=${{ inputs.license_path }} `
+        /DLICENSE_FILE=./LICENSE.md `
         /DROOT_KEY=HKCU `
         ./nsis-installer-action-repo/installer.nsi
 
