@@ -34,7 +34,8 @@ runs:
 
   - name: 'Checkout'
     uses: actions/checkout@v3
-    with: 
+    with:
+      repository: Moonshine-IDE/nsis-installer-action
       path: ./nsis-installer-action-repo
 
   - name: Install NSIS plugin nsProcess
