@@ -53,8 +53,7 @@ runs:
   - name: Debug
     shell: powershell
     run: |
-      pwd
-      tree /F "${{ inputs.bin_path }}"
+      cat ./LICENSE.md
 
   - name: Convert vars
     shell: powershell
