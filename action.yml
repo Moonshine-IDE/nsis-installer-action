@@ -69,6 +69,7 @@ runs:
   - name: Relocate installer
     shell: powershell
     run: |
+      mkdir build/windows
       $outputPath = "${PWD}/${{ inputs.output_path }}"
       Write-Debug "Output path: $outputPath"
       mv ./nsis-installer-action-repo/${{ env.installerName }} $outputPath
