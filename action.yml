@@ -70,4 +70,5 @@ runs:
     shell: powershell
     run: |
       $outputPath = "${PWD}/${{ inputs.output_path }}"
+      Write-Debug "Output path: $outputPath"
       mv ./nsis-installer-action-repo/${{ env.installerName }} $outputPath
