@@ -46,43 +46,28 @@ runs:
       mv NsProcess\Plugin\nsProcessW.dll "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\nsProcess.dll"
       mv NSProcess\Include\nsProcess.nsh "C:\Program Files (x86)\NSIS\Include\nsProcess.nsh"
 
-  - name: Debug nsProcess
-    shell: powershell
-    run: ls "C:\Program Files (x86)\NSIS\Include"
-
-  - name: Debug
-    shell: powershell
-    run: |
-      cat ./LICENSE.md
-
-  - name: Convert vars
-    shell: powershell
-    run: |
-      $binPathAbsolute = Resolve-Path ${{ inputs.bin_path }}
-      echo "Absolute path: $binPathAbsolute"
-      echo "binPathAbsolute=$binPathAbsolute" | Out-File -Append $env:GITHUB_ENV      
-      $installerName = Split-Path ${{ inputs.output_path }} -leaf
-      echo "Installer name: $installerName"
-      echo "installerName=$installerName" | Out-File -Append $env:GITHUB_ENV
-
   - name: 'Create NSIS Installer'
     shell: powershell
     run: |
+      $binDir = Resolve-Path -Path "${{ inputs.bin_path }}" | Select-Object -ExpandProperty Path
+      $binPath = Join-Path -Path $binDir -ChildPath "*.*"
+      $licenseFile = Resolve-Path -Path "${{ inputs.license_path }}" | Select-Object -ExpandProperty Path
+      $installerName = Split-Path ${{ inputs.output_path }} -leaf
+
       makensis `
         /DPRODUCT_NAME="${{ inputs.product_name }}" `
         /DPRODUCT_VERSION=${{ inputs.product_version }} `
         /DPRODUCT_PUBLISHER="${{ inputs.product_publisher }}" `
         /DPRODUCT_WEB_SITE="${{ inputs.product_website }}" `
-        /DBIN_PATH="${{ env.binPathAbsolute }}\*.*" `
+        /DBIN_PATH=$binPath `
         /DPRODUCT_EXE="${{ inputs.product_exe }}" `
-        /DPRODUCT_INSTALLER="${{ env.installerName }}" `
-        /DLICENSE_FILE=./LICENSE.md `
+        /DPRODUCT_INSTALLER="$installerName" `
+        /DLICENSE_FILE=$licenseFile `
         /DROOT_KEY=HKCU `
         ./nsis-installer-action-repo/installer.nsi
 
   - name: Relocate installer
     shell: powershell
-    env: 
-      INSTALLER_NAME: Split-Path ${{ inputs.output_path }} -leaf
     run: |
-      mv ./nsis-installer-action-repo/${{ env.installerName }} ${{ inputs.output_path }}
+      $outputPath = Resolve-Path -Path "${{ inputs.output_path }}" | Select-Object -ExpandProperty Path
+      mv ./nsis-installer-action-repo/${{ env.installerName }} $outputPath
