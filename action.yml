@@ -51,7 +51,7 @@ runs:
     run: |
       $binDir = Resolve-Path -Path "${{ inputs.bin_path }}" | Select-Object -ExpandProperty Path
       $binPath = Join-Path -Path $binDir -ChildPath "*.*"
-      $licenseFile = Resolve-Path -Path "${{ inputs.license_path }}" | Select-Object -ExpandProperty Path
+      # $licenseFile = Resolve-Path -Path "${{ inputs.license_path }}" | Select-Object -ExpandProperty Path
       $installerName = Split-Path ${{ inputs.output_path }} -leaf
 
       makensis `
@@ -62,7 +62,7 @@ runs:
         /DBIN_PATH=$binPath `
         /DPRODUCT_EXE="${{ inputs.product_exe }}" `
         /DPRODUCT_INSTALLER="$installerName" `
-        /DLICENSE_FILE=$licenseFile `
+        /DLICENSE_FILE="" `
         /DROOT_KEY=HKCU `
         ./nsis-installer-action-repo/installer.nsi
 
