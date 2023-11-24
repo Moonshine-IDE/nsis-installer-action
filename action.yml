@@ -42,7 +42,7 @@ runs:
     shell: powershell
     run: |
       Invoke-RestMethod -Uri "https://nsis.sourceforge.io/mediawiki/images/1/18/NsProcess.zip" -OutFile NsProcess.7z
-      7z x NsProcess.7z -o'NsProcess'
+      7z x NsProcess.7z -o'NsProcess' -y
       mv NsProcess\Plugin\nsProcessW.dll "C:\Program Files (x86)\NSIS\Plugins\x86-unicode\nsProcess.dll"
       mv NSProcess\Include\nsProcess.nsh "C:\Program Files (x86)\NSIS\Include\nsProcess.nsh"
 
